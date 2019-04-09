@@ -1,0 +1,20 @@
+Package: summaryStatsR
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Author: Pasquale Dente
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports:
+    rlang,
+    tidyverse,
+    glue
+Suggests:
+    testthat,
+    data.table,
+    jsonlite
+RoxygenNote: 6.1.1
