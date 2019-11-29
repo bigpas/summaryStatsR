@@ -24,11 +24,11 @@ It works with data.frame, data.table and tibble.
 \examples{
 
 library(rlang)
-library(tidyverse)
+library(dplyr)
+library(purrr)
 library(glue)
 library(summaryStatsR)
 library(datasets)
 
 summary_stats(datasets::iris, "Sepal.Length", decimals = 2)
-
 }

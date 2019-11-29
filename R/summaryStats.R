@@ -13,16 +13,19 @@
 #'@examples
 #'
 #' library(rlang)
-#' library(tidyverse)
+#' library(dplyr)
+#' library(purrr)
 #' library(glue)
 #' library(summaryStatsR)
 #' library(datasets)
 #'
 #' summary_stats(datasets::iris, "Sepal.Length", decimals = 2)
-#'
+#' @importFrom stats median na.omit sd
+#' @importFrom dplyr `%>%`
+#' @importFrom rlang `:=`
 #' @export
 summary_stats  <- function(data, target_var, decimals=2){
-
+    
     stopifnot(exprs = {
         is.data.frame(data)
         is.character(target_var)
@@ -47,7 +50,7 @@ summary_stats  <- function(data, target_var, decimals=2){
             !!sdOM     := sd(!!sym_om, na.rm = TRUE),
             !!semOM    := sem(na.omit(!!sym_om)),
             !!maxOM    := max(!!sym_om, na.rm = TRUE),
-            !!N        := n()
+            !!N        := dplyr::n()
         ) %>%
         round(decimals)
 }
@@ -55,19 +58,23 @@ summary_stats  <- function(data, target_var, decimals=2){
 #' Summary Stats with a grouping variable
 #' It works with data.frame, data.table and tibble.
 #'
-#' @param data     A data frame
-#' @param group    A character representing a grouping variable
-#' @param target_var       A character representingthe outcome variable
-#' @param decimals Number of decimals in the output frame
+#' @param data       A data frame
+#' @param group      A character representing a grouping variable
+#' @param target_var A character representingthe outcome variable
+#' @param decimals   Number of decimals in the output frame
 #'
 #' @return         A data frame with min, mean, median, sd, max
 #'
 #' @name grouped_summary_stats
 #'
+#' @importFrom stats median na.omit sd
+#' @importFrom dplyr `%>%`
+#' @importFrom rlang `:=`
 #' @examples
 #'
 #' library(rlang)
-#' library(tidyverse)
+#' library(dplyr)
+#' library(purrr)
 #' library(glue)
 #' library(summaryStatsR)
 #' library(datasets)
@@ -104,10 +111,10 @@ grouped_summary_stats  <- function(data, group, target_var, decimals=2){
             !!sdOM     := sd(!!sym_om, na.rm = TRUE),
             !!semOM    := sem(na.omit(!!sym_om)),
             !!maxOM    := max(!!sym_om, na.rm = TRUE),
-            !!N        := n()
+            !!N        := dplyr::n()
         ) %>%
-        ungroup() %>%
-        map_df(function(col)
+        dplyr::ungroup() %>%
+        purrr::map_df(function(col)
             if (is.numeric(col)) {
                 return(round(col, decimals))
             } else {
@@ -131,10 +138,14 @@ grouped_summary_stats  <- function(data, group, target_var, decimals=2){
 #'
 #' @name grouped2_summary_stats
 #'
+#' @importFrom stats median na.omit sd
+#' @importFrom dplyr `%>%`
+#' @importFrom rlang `:=`
 #' @examples
 #'
 #' library(rlang)
-#' library(tidyverse)
+#' library(dplyr)
+#' library(purrr)
 #' library(glue)
 #' library(summaryStatsR)
 #' library(datasets)
@@ -165,7 +176,7 @@ grouped2_summary_stats <- function(data, group1, group2, target_var, decimals=2)
     N         <- "N"
 
     data %>%
-        group_by(!!sym_group1, !!sym_group2) %>%
+        dplyr::group_by(!!sym_group1, !!sym_group2) %>%
         dplyr::summarise(
             !!minOM    := min(!!sym_om, na.rm = TRUE),
             !!meanOM   := mean(!!sym_om, na.rm = TRUE),
@@ -173,10 +184,10 @@ grouped2_summary_stats <- function(data, group1, group2, target_var, decimals=2)
             !!sdOM     := sd(!!sym_om, na.rm = TRUE),
             !!semOM    := sem(na.omit(!!sym_om)),
             !!maxOM    := max(!!sym_om, na.rm = TRUE),
-            !!N        := n()
+            !!N        := dplyr::n()
         ) %>%
-        ungroup() %>%
-        map_df(function(col)
+        dplyr::ungroup() %>%
+        purrr::map_df(function(col)
             if (is.numeric(col)) {
                 return(round(col, decimals))
             } else {

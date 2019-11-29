@@ -11,6 +11,7 @@
 #' library(summaryStatsR)
 #'
 #' sem(iris[['Petal.Length']])
-#'
+#' 
+#' @importFrom stats na.omit sd
 #' @export
 sem <- function(x) sd(na.omit(x))/sqrt(length(na.omit(x)))
