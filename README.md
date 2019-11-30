@@ -1,4 +1,4 @@
-# summaryStatsR
+# summaryStatsR [![Build Status](https://travis-ci.org/bigpas/summaryStatsR.svg?branch=master)](https://travis-ci.org/bigpas/summaryStatsR)
 
 A `R` package to compute summary statistics (`min, mean, median, sd, sem, max, N`).
 
